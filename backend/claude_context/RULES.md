@@ -44,7 +44,7 @@ backend/
 
 1. Maksimal **200 baris per file** `.go` non-test. File `_test.go` dikecualikan.
 2. Untuk setiap perubahan DDL, buat **migrasi** `.up.sql` dan `.down.sql` bernomor di folder `migrations/`.
-3. **Tidak boleh stored procedure** dalam bentuk apa pun.
+3. **Tidak boleh stored procedure** dalam bentuk apa pun. Semua query ditulis as native query di repository. Tidak ada penggunaan ORM.
 4. Logika bisnis ada di **service layer**. Handler hanya parsing, validasi bentuk, dan memanggil service. Repository hanya query.
 5. Setiap aksi menulis `audit_logs` dalam **transaksi yang sama**.
 6. API Response :

@@ -119,6 +119,10 @@ backend/
 
 7. Semua kolom waktu pakai `TIMESTAMPTZ`, bukan `TIMESTAMP`.
 8. RBAC berbasis permission: tabel `permissions` + `role_permissions`. Middleware cek permission, bukan nama role.
+9. Semua waktu di request dan response JSON pakai format **ISO 8601 / RFC 3339 dengan offset**, mis. `2026-11-19T10:00:00+07:00`.
+   - Cukup kirim `time.Time` apa adanya; `encoding/json` sudah menghasilkan RFC 3339.
+   - Tidak boleh mengubah waktu ke format tampilan (mis. `dd-mm-yyyy`) di backend. Format tampilan adalah tugas frontend.
+   - Kolom `DATE` (tanpa jam) dikirim sebagai `yyyy-mm-dd`, mis. `2026-11-19`.
 
 ### 3. Test Performance Variable
 - Tool: k6

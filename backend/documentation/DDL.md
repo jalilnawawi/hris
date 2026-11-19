@@ -6,6 +6,7 @@
 | id          | UUID      | PRIMARY KEY DEFAULT gen_random_uuid() |
 | username    | VARCHAR(50) | UNIQUE, NOT NULL |
 | password    | VARCHAR(255) | NULL |
+| email       | VARCHAR(100) | NOT NULL (unik case-insensitive, lihat `uq_users_email_lower`) |
 | is_active   | BOOLEAN   | DEFAULT TRUE |
 | role_id      | INT       | FOREIGN KEY REFERENCES roles(id) |
 | last_login_at | TIMESTAMPTZ | NULL |
@@ -13,8 +14,9 @@
 | telegram_chat_id | BIGINT    | NULL |
 | created_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
 | updated_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
-indexes:
-- idx_users_employee_id: (employee_id)
+unique:
+- uq_users_email_lower: (lower(email))
+- uq_users_employee_id: (employee_id)
 ---
 ## User Tokens Table (user_tokens)
 | Column Name | Data Type | Constraints |
@@ -62,7 +64,6 @@ primary key: (role_id, permission_id)
 | employee_number | VARCHAR(20) | UNIQUE, NOT NULL |
 | full_name   | VARCHAR(100) | NOT NULL |
 | gender      | VARCHAR(10) | NULL |
-| email       | VARCHAR(100) | UNIQUE, NOT NULL |
 | phone_number | VARCHAR(15) | NULL |
 | address     | VARCHAR(255) | NULL |
 | position    | VARCHAR(50) | NULL |

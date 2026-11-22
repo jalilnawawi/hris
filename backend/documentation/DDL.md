@@ -63,16 +63,15 @@ primary key: (role_id, permission_id)
 | id | UUID      | PRIMARY KEY DEFAULT gen_random_uuid() |
 | employee_number | VARCHAR(20) | UNIQUE, NOT NULL |
 | full_name   | VARCHAR(100) | NOT NULL |
-| gender      | VARCHAR(10) | NULL |
+| gender      | VARCHAR(10) | NULL CHECK (gender IN ('male', 'female')) |
 | phone_number | VARCHAR(15) | NULL |
 | address     | VARCHAR(255) | NULL |
 | position    | VARCHAR(50) | NULL |
 | department_id | INT | FOREIGN KEY REFERENCES departments(id) |
-| shift_id    | INT       | NULL, FOREIGN KEY REFERENCES master_shift(id) |
 | reporting_manager_id | UUID | FOREIGN KEY REFERENCES employees(id) |
 | date_of_birth | DATE      | NULL |
 | date_of_joining | DATE      | NULL |
-| marital_status | VARCHAR(20) | NULL |
+| marital_status | VARCHAR(20) | NULL CHECK (marital_status IN ('single', 'married', 'divorced', 'widowed')) |
 | photo_url  | VARCHAR(255) | NULL |
 | parent_name | VARCHAR(100) | NULL |
 | parent_phone_number | VARCHAR(15) | NULL |

@@ -105,21 +105,40 @@ indexes:
 | created_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
 | updated_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
 ---
+## Work Location Table (work_location)
+| Column Name | Data Type | Constraints |
+|-------------|-----------|-------------|
+| id          | SERIAL    | PRIMARY KEY |
+| name        | VARCHAR(100) | UNIQUE, NOT NULL |
+| latitude    | DOUBLE PRECISION | NOT NULL CHECK (latitude BETWEEN -90 AND 90) |
+| longitude   | DOUBLE PRECISION | NOT NULL CHECK (longitude BETWEEN -180 AND 180) |
+| radius_meters | INT     | NOT NULL CHECK (radius_meters > 0) |
+| created_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
+| updated_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
+---
 ## Attendance Table (attendance)
 | Column Name | Data Type | Constraints |
 |-------------|-----------|-------------|
 | id          | UUID      | PRIMARY KEY DEFAULT gen_random_uuid() |
 | employee_id | UUID      | FOREIGN KEY REFERENCES employees(id) |
 | shift_id    | INT       | FOREIGN KEY REFERENCES master_shift(id) |
+| work_location_id | INT  | NULL, FOREIGN KEY REFERENCES work_location(id) |
 | date        | DATE      | NOT NULL |
 | check_in    | TIMESTAMPTZ | NULL |
 | check_out   | TIMESTAMPTZ | NULL |
+| check_in_lat  | DOUBLE PRECISION | NULL |
+| check_in_lng  | DOUBLE PRECISION | NULL |
+| check_out_lat | DOUBLE PRECISION | NULL |
+| check_out_lng | DOUBLE PRECISION | NULL |
+| check_in_photo  | VARCHAR(255) | NULL (fid SeaweedFS, TTL 3 bulan) |
+| check_out_photo | VARCHAR(255) | NULL (fid SeaweedFS, TTL 3 bulan) |
 | status      | VARCHAR(20) | NOT NULL DEFAULT 'present' CHECK (status IN ('present', 'late', 'absent', 'leave')) |
 | created_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
 | updated_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
 indexes:
 - idx_attendance_date: (date)
 - idx_attendance_shift_id: (shift_id)
+- idx_attendance_work_location_id: (work_location_id)
 unique:
 - uq_attendance_employee_date: (employee_id, date)
 ---

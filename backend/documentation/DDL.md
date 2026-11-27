@@ -112,7 +112,7 @@ indexes:
 | employee_id | UUID      | FOREIGN KEY REFERENCES employees(id) |
 | shift_id    | INT       | FOREIGN KEY REFERENCES master_shift(id) |
 | date        | DATE      | NOT NULL |
-| check_in    | TIMESTAMPTZ | NOT NULL |
+| check_in    | TIMESTAMPTZ | NULL |
 | check_out   | TIMESTAMPTZ | NULL |
 | status      | VARCHAR(20) | NOT NULL DEFAULT 'present' CHECK (status IN ('present', 'late', 'absent', 'leave')) |
 | created_at  | TIMESTAMPTZ | DEFAULT CURRENT_TIMESTAMP |
